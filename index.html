@@ -725,11 +725,14 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
     .form-card { padding: 40px 24px; }
     .offer-box { padding: 40px 24px; }
     .price-new { font-size: 46px; }
-    .gallery-thumbs { grid-template-columns: repeat(6, 1fr); gap: 6px; }
-    .thumb-emo { font-size: 12px; }
+    .gallery-thumbs { grid-template-columns: repeat(7, 1fr); gap: 5px; }
+    .thumb-emo { font-size: 11px; }
+    .thumb-video .play-icon { font-size: 12px; }
+    .thumb-video .video-label { font-size: 9px; }
   }
   @media (max-width: 420px) {
-    .thumb-emo { font-size: 10px; }
+    .thumb-emo { font-size: 9px; }
+    .thumb-video .video-label { font-size: 8px; }
   }
 
   /* Loader */
@@ -815,9 +818,17 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
     z-index: 3;
   }
 
+  .gallery-main video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #000;
+  }
+
   .gallery-thumbs {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 8px;
   }
   .thumb {
@@ -830,6 +841,7 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
     background: #fff;
     transition: all 0.2s ease;
     box-shadow: var(--shadow-soft);
+    position: relative;
   }
   .thumb:hover { transform: translateY(-2px); }
   .thumb.active {
@@ -855,12 +867,48 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
   .thumb-green  { background: linear-gradient(135deg, #d1fae5, #34d399); }
   .thumb-pink   { background: linear-gradient(135deg, #fce7f3, #f472b6); }
   .thumb-orange { background: linear-gradient(135deg, #ffedd5, #fb923c); }
+  .thumb-dark   { background: linear-gradient(135deg, #1e293b, #0f172a); }
   .thumb-emo {
     font-size: clamp(14px, 2.5vw, 22px);
     font-weight: 900;
     color: #fff;
     text-shadow: 0 1px 3px rgba(0,0,0,0.2);
     font-family: 'Amiri', serif;
+  }
+
+  /* Video thumb specific */
+  .thumb-video {
+    position: relative;
+  }
+  .thumb-video .play-icon {
+    color: #fff;
+    font-size: clamp(18px, 3vw, 26px);
+    background: var(--orange);
+    width: 60%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 4px;
+    box-shadow: 0 4px 12px rgba(255, 140, 26, 0.5);
+    animation: pulseRing 2s infinite;
+  }
+  @keyframes pulseRing {
+    0%, 100% { box-shadow: 0 4px 12px rgba(255, 140, 26, 0.5), 0 0 0 0 rgba(255, 140, 26, 0.5); }
+    50% { box-shadow: 0 4px 12px rgba(255, 140, 26, 0.5), 0 0 0 8px rgba(255, 140, 26, 0); }
+  }
+  .thumb-video .video-label {
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    pointer-events: none;
   }
 </style>
 </head>
@@ -907,9 +955,16 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
         <div class="gallery">
           <div class="gallery-main">
             <img id="mainImg" src="images/product-main.jpg" alt="الكتاب السحري - 4 كتب + قلم سحري">
-            <div class="gallery-overlay-badge">✨ الباك الكامل</div>
+            <video id="mainVideo" src="product-video.mp4" controls playsinline preload="metadata" style="display:none;"></video>
+            <div class="gallery-overlay-badge" id="overlayBadge">✨ الباك الكامل</div>
           </div>
           <div class="gallery-thumbs">
+            <button type="button" class="thumb thumb-video" data-type="video" data-src="product-video.mp4">
+              <div class="thumb-svg-wrap thumb-dark">
+                <div class="play-icon">▶</div>
+              </div>
+              <span class="video-label">فيديو</span>
+            </button>
             <button type="button" class="thumb active" data-src="images/product-main.jpg" data-type="image">
               <img src="images/product-main.jpg" alt="الباك كامل">
             </button>
@@ -1358,24 +1413,56 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
       pen:     { cls: 'view-orange', emo: '🖊️',    title: 'القلم السحري',      sub: 'حبر كيمحى وحدو + أحبار' }
     };
 
+    const badgeLabels = {
+      letters: '📘 الحروف العربية',
+      math: '➕ الجمع والطرح',
+      numbers: '🔢 عبقرية الأرقام',
+      draw: '🎨 حب الرسم',
+      pen: '🖊️ القلم السحري',
+      video: '▶ فيديو المنتج',
+      image: '✨ الباك الكامل'
+    };
+
     const mainWrap = document.querySelector('.gallery-main');
     const mainImg = document.getElementById('mainImg');
+    const mainVideo = document.getElementById('mainVideo');
+    const overlayBadge = document.getElementById('overlayBadge');
     const thumbs = document.querySelectorAll('.thumb');
 
-    function showImage(src) {
-      // Remove any svg view and show the img
+    function hideAllMedia() {
       const existing = mainWrap.querySelector('.svg-view');
       if (existing) existing.remove();
+      mainImg.style.display = 'none';
+      mainVideo.style.display = 'none';
+      mainVideo.pause();
+    }
+
+    function showImage(src) {
+      hideAllMedia();
       mainImg.src = src;
       mainImg.style.display = 'block';
+      overlayBadge.style.display = 'block';
+      overlayBadge.textContent = badgeLabels.image;
+    }
+
+    function showVideo(src) {
+      hideAllMedia();
+      if (mainVideo.getAttribute('src') !== src) {
+        mainVideo.setAttribute('src', src);
+      }
+      mainVideo.style.display = 'block';
+      overlayBadge.style.display = 'none';
+      // Attempt autoplay (muted is safer on mobile)
+      const playPromise = mainVideo.play();
+      if (playPromise && playPromise.catch) {
+        playPromise.catch(() => { /* user will press play manually */ });
+      }
     }
 
     function showSvg(key) {
       const v = svgViews[key];
       if (!v) return;
-      mainImg.style.display = 'none';
-      let existing = mainWrap.querySelector('.svg-view');
-      if (existing) existing.remove();
+      hideAllMedia();
       const div = document.createElement('div');
       div.className = 'svg-view ' + v.cls;
       div.innerHTML = `
@@ -1384,6 +1471,8 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
         <div class="title-sub">${v.sub}</div>
       `;
       mainWrap.insertBefore(div, mainWrap.firstChild);
+      overlayBadge.style.display = 'block';
+      overlayBadge.textContent = badgeLabels[key] || '';
     }
 
     thumbs.forEach(t => {
@@ -1393,11 +1482,23 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
         const type = t.getAttribute('data-type');
         if (type === 'image') {
           showImage(t.getAttribute('data-src'));
+        } else if (type === 'video') {
+          showVideo(t.getAttribute('data-src'));
         } else if (type === 'svg') {
           showSvg(t.getAttribute('data-svg'));
         }
       });
     });
+
+    // Pause video when user scrolls away from hero
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting && !mainVideo.paused) {
+          mainVideo.pause();
+        }
+      });
+    }, { threshold: 0.2 });
+    observer.observe(mainWrap);
   })();
 </script>
 
