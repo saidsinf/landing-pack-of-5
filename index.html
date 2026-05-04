@@ -2,9 +2,41 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>الكتاب السحري ✨ — 4 كتب + قلم سحري لتعليم ولدك الكتابة</title>
 <meta name="description" content="الكتاب السحري المغربي - 4 كتب تعليمية بالعربية (الحروف، الأرقام، الحساب، الرسم) + قلم سحري بالحبر الذي يختفي. بـ 50 درهم فقط. الدفع عند التسليم في جميع مدن المغرب.">
+
+<!-- PWA manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="الكتاب السحري">
+
+<!-- iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="الكتاب السحري">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144.png">
+<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="icons/icon-96.png">
+<link rel="shortcut icon" href="icons/favicon.ico">
+
+<!-- Open Graph / WhatsApp share -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="الكتاب السحري ✨ — 50 درهم فقط">
+<meta property="og:description" content="4 كتب تعليمية + قلم سحري. الدفع عند التسليم في جميع مدن المغرب.">
+<meta property="og:image" content="images/product-main.jpg">
+<meta property="og:locale" content="ar_MA">
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="الكتاب السحري ✨ — 50 درهم">
+<meta name="twitter:description" content="4 كتب تعليمية + قلم سحري للأطفال. الدفع عند التسليم.">
+<meta name="twitter:image" content="images/product-main.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -954,18 +986,18 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
         <!-- Gallery -->
         <div class="gallery">
           <div class="gallery-main">
-            <img id="mainImg" src="photo_2026-04-12_01-20-23.jpg" alt="الكتاب السحري - 4 كتب + قلم سحري">
-            <video id="mainVideo" src="video_2026-04-21_22-48-46.mp4" controls playsinline preload="metadata" style="display:none;"></video>
+            <img id="mainImg" src="images/product-main.jpg" alt="الكتاب السحري - 4 كتب + قلم سحري">
+            <video id="mainVideo" src="product-video.mp4" controls playsinline preload="metadata" style="display:none;"></video>
             <div class="gallery-overlay-badge" id="overlayBadge">✨ الباك الكامل</div>
           </div>
           <div class="gallery-thumbs">
-            <button type="button" class="thumb thumb-video" data-type="video" data-src="video_2026-04-21_22-48-46.mp4">
+            <button type="button" class="thumb thumb-video" data-type="video" data-src="product-video.mp4">
               <div class="thumb-svg-wrap thumb-dark">
                 <div class="play-icon">▶</div>
               </div>
               <span class="video-label">فيديو</span>
             </button>
-            <button type="button" class="thumb active" data-src="photo_2026-04-12_01-20-23.jpg" data-type="image">
+            <button type="button" class="thumb active" data-src="images/product-main.jpg" data-type="image">
               <img src="images/product-main.jpg" alt="الباك كامل">
             </button>
             <button type="button" class="thumb" data-type="svg" data-svg="letters">
@@ -1636,6 +1668,122 @@ src="https://www.facebook.com/tr?id=9431270180222541&ev=PageView&noscript=1"/></
 
   // Initialize totals
   updateTotal();
+</script>
+
+<!-- ═══════════════════════════════════════════
+     PWA: Install prompt banner
+════════════════════════════════════════════ -->
+<div id="installBanner" style="
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px -10px rgba(29,78,216,0.35);
+  padding: 16px 22px;
+  display: none;
+  align-items: center;
+  gap: 14px;
+  max-width: 420px;
+  width: calc(100% - 32px);
+  border: 2px solid #dbeafe;
+  font-family: 'Cairo', sans-serif;
+">
+  <img src="icons/icon-72.png" alt="أيقونة" style="width:48px;height:48px;border-radius:12px;flex-shrink:0;">
+  <div style="flex:1;min-width:0;">
+    <div style="font-weight:800;color:#1d4ed8;font-size:15px;">حمّل التطبيق مجاناً 📲</div>
+    <div style="font-size:13px;color:#475569;margin-top:2px;">اطلب في أي وقت حتى بلا انترنت</div>
+  </div>
+  <button id="installBtn" style="
+    background: linear-gradient(135deg,#ff8c1a,#e67300);
+    color:#fff;border:none;padding:10px 18px;
+    border-radius:50px;font-weight:800;font-size:14px;
+    cursor:pointer;white-space:nowrap;font-family:inherit;
+    box-shadow:0 6px 16px -4px rgba(255,140,26,0.5);
+  ">حمّل</button>
+  <button id="dismissBanner" style="
+    background:none;border:none;color:#94a3b8;
+    font-size:22px;cursor:pointer;line-height:1;
+    padding:0 4px;flex-shrink:0;
+  ">×</button>
+</div>
+
+<!-- Offline toast -->
+<div id="offlineToast" style="
+  display:none;
+  position:fixed;top:70px;left:50%;
+  transform:translateX(-50%);
+  z-index:9998;
+  background:#1e293b;color:#fff;
+  padding:12px 24px;border-radius:50px;
+  font-family:'Cairo',sans-serif;font-weight:700;font-size:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  align-items:center;gap:8px;
+">📴 أنت offline — الصفحة محفوظة ومتاحة</div>
+
+<script>
+// ─── Service Worker Registration ─────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(reg => {
+        console.log('[SW] Registered, scope:', reg.scope);
+        // Check for updates every 30 minutes
+        setInterval(() => reg.update(), 30 * 60 * 1000);
+      })
+      .catch(err => console.warn('[SW] Registration failed:', err));
+  });
+}
+
+// ─── Install prompt (A2HS) ────────────────────────────────────────────────
+let deferredPrompt = null;
+const banner = document.getElementById('installBanner');
+const installBtn = document.getElementById('installBtn');
+const dismissBtn = document.getElementById('dismissBanner');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show banner after 4 seconds if user hasn't dismissed before
+  if (!sessionStorage.getItem('installDismissed')) {
+    setTimeout(() => {
+      banner.style.display = 'flex';
+    }, 4000);
+  }
+});
+
+installBtn && installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  banner.style.display = 'none';
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  console.log('[PWA] Install outcome:', outcome);
+  deferredPrompt = null;
+});
+
+dismissBtn && dismissBtn.addEventListener('click', () => {
+  banner.style.display = 'none';
+  sessionStorage.setItem('installDismissed', '1');
+});
+
+window.addEventListener('appinstalled', () => {
+  banner.style.display = 'none';
+  deferredPrompt = null;
+  console.log('[PWA] App installed successfully');
+});
+
+// ─── Offline / Online toast ───────────────────────────────────────────────
+const toast = document.getElementById('offlineToast');
+function showToast(msg, duration = 3500) {
+  toast.innerHTML = msg;
+  toast.style.display = 'flex';
+  setTimeout(() => { toast.style.display = 'none'; }, duration);
+}
+window.addEventListener('offline', () => showToast('📴 أنت offline — الصفحة محفوظة ومتاحة', 5000));
+window.addEventListener('online',  () => showToast('✅ رجعت الانترنت', 3000));
 </script>
 
 </body>
